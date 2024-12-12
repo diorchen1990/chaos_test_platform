@@ -1,0 +1,57 @@
+server:
+  port: ${SERVER_PORT:-8080}
+  host: ${SERVER_HOST:-0.0.0.0}
+  debug: ${DEBUG:-false}
+  cors:
+    enable: true
+    allowOrigins:
+      - ${CORS_ORIGIN:-*}
+
+database:
+  driver: mysql
+  host: ${DB_HOST:-localhost}
+  port: ${DB_PORT:-3306}
+  username: ${DB_USER}
+  password: ${DB_PASSWORD}
+  database: ${DB_NAME:-chaos}
+  maxOpenConns: 100
+  maxIdleConns: 10
+
+monitor:
+  prometheus:
+    enable: true
+    port: 9090
+  metrics:
+    enable: true
+    interval: 15s
+
+logging:
+  level: ${LOG_LEVEL:-info}
+  format: json
+  output:
+    path: /var/log/chaos-platform
+    maxSize: 100
+    maxBackups: 3
+    maxAge: 7
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expireHours: 24
+  tls:
+    enable: false
+    certFile: /path/to/cert
+    keyFile: /path/to/key
+
+alert:
+  enable: true
+  providers:
+    - type: email
+      host: smtp.example.com
+      port: 587
+      username: your-email
+      password: your-password
+    - type: dingtalk
+      webhook: https://oapi.dingtalk.com/robot/send?access_token=xxx
+    - type: webhook
+      url: http://your-webhook-url 
