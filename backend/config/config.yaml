@@ -1,7 +1,11 @@
+app:
+  name: chaos-platform
+  version: 1.0.0
+  env: ${APP_ENV:-dev}
+
 server:
   port: ${SERVER_PORT:-8080}
-  host: ${SERVER_HOST:-0.0.0.0}
-  debug: ${DEBUG:-false}
+  timeout: 30s
   cors:
     enable: true
     allowOrigins:
@@ -9,13 +13,12 @@ server:
 
 database:
   driver: mysql
-  host: ${DB_HOST:-localhost}
-  port: ${DB_PORT:-3306}
-  username: ${DB_USER}
-  password: ${DB_PASSWORD}
-  database: ${DB_NAME:-chaos}
-  maxOpenConns: 100
-  maxIdleConns: 10
+  master:
+    host: ${DB_HOST:-localhost}
+    port: ${DB_PORT:-3306}
+  slave:
+    - host: ${DB_SLAVE1_HOST}
+    - host: ${DB_SLAVE2_HOST}
 
 monitor:
   prometheus:

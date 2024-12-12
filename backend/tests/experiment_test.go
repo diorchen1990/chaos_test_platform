@@ -78,4 +78,20 @@ func TestExperimentExecution(t *testing.T) {
 			mockAgent.AssertExpectations(t)
 		})
 	}
+}
+
+func TestExperimentService(t *testing.T) {
+	// 使用测试套件
+	suite.Run(t, new(ExperimentTestSuite))
+}
+
+type ExperimentTestSuite struct {
+	suite.Suite
+	svc    *services.ExperimentService
+	mockDB *mocks.DB
+}
+
+func (s *ExperimentTestSuite) SetupTest() {
+	s.mockDB = new(mocks.DB)
+	s.svc = services.NewExperimentService(s.mockDB)
 } 

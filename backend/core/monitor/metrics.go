@@ -6,17 +6,16 @@ import (
 
 type MetricsCollector struct {
 	// 实验相关指标
-	experimentCounter *prometheus.CounterVec
-	experimentDuration *prometheus.HistogramVec
+	experimentCounter   *prometheus.CounterVec   // 实验总数
+	experimentDuration  *prometheus.HistogramVec // 实验执行时长
+	experimentSuccess   *prometheus.CounterVec   // 成功实验数
+	experimentFailure   *prometheus.CounterVec   // 失败实验数
 	
-	// 系统资源指标
-	cpuUsage    *prometheus.GaugeVec
-	memoryUsage *prometheus.GaugeVec
-	diskUsage   *prometheus.GaugeVec
+	// 系统资源指标  
+	resourceUsage      *prometheus.GaugeVec    // CPU/内存/磁盘使用率
 	
-	// 业务指标
-	javaMetrics  *prometheus.GaugeVec
-	dbMetrics    *prometheus.GaugeVec
+	// 应用指标
+	applicationMetrics *prometheus.GaugeVec    // JVM/DB等应用指标
 }
 
 func NewMetricsCollector(cfg *Config) (*MetricsCollector, error) {
@@ -35,11 +34,8 @@ func NewMetricsCollector(cfg *Config) (*MetricsCollector, error) {
 	prometheus.MustRegister(
 		mc.experimentCounter,
 		mc.experimentDuration,
-		mc.cpuUsage,
-		mc.memoryUsage,
-		mc.diskUsage,
-		mc.javaMetrics,
-		mc.dbMetrics,
+		mc.resourceUsage,
+		mc.applicationMetrics,
 	)
 	
 	return mc, nil

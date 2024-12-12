@@ -6,26 +6,29 @@ const experimentModule: Module<ExperimentState, RootState> = {
     state: {
         experiments: [],
         loading: false,
-        currentExperiment: null,
         filters: {
             status: [],
-            type: []
+            type: [],
+            timeRange: null
+        },
+        pagination: {
+            current: 1,
+            pageSize: 10,
+            total: 0
         }
     },
     
     getters: {
         filteredExperiments: (state) => {
             return state.experiments.filter(exp => {
-                if (state.filters.status.length && 
-                    !state.filters.status.includes(exp.status)) {
-                    return false;
-                }
-                if (state.filters.type.length && 
-                    !state.filters.type.includes(exp.type)) {
-                    return false;
-                }
                 return true;
             });
+        },
+        
+        paginatedExperiments: (state, getters) => {
+            const { current, pageSize } = state.pagination;
+            const filtered = getters.filteredExperiments;
+            return filtered.slice((current - 1) * pageSize, current * pageSize);
         }
     }
 }; 

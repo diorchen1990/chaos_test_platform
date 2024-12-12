@@ -42,18 +42,24 @@ const (
 )
 
 type Experiment struct {
-    ID          string          `json:"id" gorm:"primaryKey"`
-    Name        string          `json:"name"`
-    Scope       ExperimentScope `json:"scope"`
-    Target      Target          `json:"target" gorm:"type:json"`
-    Action      string          `json:"action"`
-    Parameters  json.RawMessage `json:"parameters" gorm:"type:json"`
-    Status      string          `json:"status"`
-    CreateTime  time.Time       `json:"createTime"`
-    UpdateTime  time.Time       `json:"updateTime"`
-    Creator     string          `json:"creator"`
-    AgentIDs    []string        `json:"agentIds" gorm:"type:json"`
-    Results     []ExperimentResult `json:"results" gorm:"type:json"`
+    Base           // 抽象通用字段到Base结构
+    Name        string
+    Description string    
+    Scope       ExperimentScope
+    Target      Target    `json:"target"`
+    Action      string    
+    Parameters  map[string]interface{}
+    Status      ExperimentStatus
+    AgentIDs    []string  `json:"agentIds"`
+    Results     []ExperimentResult
+}
+
+// 抽象基础结构
+type Base struct {
+    ID         string    `json:"id" gorm:"primaryKey"`
+    CreateTime time.Time `json:"createTime"`
+    UpdateTime time.Time `json:"updateTime"` 
+    Creator    string    `json:"creator"`
 }
 
 type Target struct {
