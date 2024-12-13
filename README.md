@@ -100,7 +100,7 @@ systemctl start docker
 ### 快速部署
 ```bash
 # 1. 克隆项目
-git clone https://github.com/chaos-mesh/chaos-platform.git
+git clone https://github.com/diorchen1990/chaos_test_platform
 cd chaos-platform
 
 # 2. 配置环境变量
